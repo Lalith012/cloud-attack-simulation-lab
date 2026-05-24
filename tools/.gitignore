@@ -1,0 +1,12 @@
+﻿# Pacu installation
+pacu/
+pacu-env/
+
+# Virtual environments
+venv/
+*-env/
+
+# Tool installations
+*
+!.gitignore
+!.gitkeep
