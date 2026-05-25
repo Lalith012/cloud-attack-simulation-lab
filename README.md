@@ -19,7 +19,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for full details.
 
 | Phase | Title | Status |
 |-------|-------|--------|
-| Phase 1 | Environment Setup | In Progress |
+| Phase 1 | Environment Setup | Complete |
 | Phase 2 | Reconnaissance and Enumeration | Pending |
 | Phase 3 | Attack Simulation - Kill Chain | Pending |
 | Phase 4 | Detection Gap Analysis | Pending |
