@@ -1,0 +1,140 @@
+{
+  "name": "Cloud Attack Simulation Lab - Project 2",
+  "versions": {
+    "attack": "14",
+    "navigator": "4.9",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "MITRE ATT&CK coverage map for Cloud Attack Simulation Lab. Techniques executed against AWS account in authorized lab environment.",
+  "filters": {
+    "platforms": [
+      "IaaS"
+    ]
+  },
+  "sorting": 0,
+  "layout": {
+    "layout": "side",
+    "aggregateFunction": "average",
+    "showID": true,
+    "showName": true,
+    "showAggregateScores": false,
+    "countUnscored": false
+  },
+  "hideDisabled": false,
+  "techniques": [
+    {
+      "techniqueID": "T1526",
+      "tactic": "discovery",
+      "color": "#ff6666",
+      "comment": "Cloud Service Discovery - ScoutSuite enumerated all AWS services in target account",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": false,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1087.004",
+      "tactic": "discovery",
+      "color": "#ff6666",
+      "comment": "Account Discovery: Cloud Account - Pacu enumerated IAM users, roles, policies, groups",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": true,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1580",
+      "tactic": "discovery",
+      "color": "#ff6666",
+      "comment": "Cloud Infrastructure Discovery - ScoutSuite and AWS CLI enumerated account infrastructure",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": false,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1530",
+      "tactic": "collection",
+      "color": "#ff6666",
+      "comment": "Data from Cloud Storage - CloudTrail logs downloaded from S3 bucket for intelligence extraction",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": false,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1562.008",
+      "tactic": "defense-evasion",
+      "color": "#ff6666",
+      "comment": "Impair Defenses: Disable Cloud Logs - CloudTrail StopLogging executed in Scenarios 1 and 3",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": true,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1619",
+      "tactic": "discovery",
+      "color": "#ff6666",
+      "comment": "Cloud Storage Object Discovery - S3 bucket contents enumerated via AWS CLI",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": false,
+      "score": 3
+    },
+    {
+      "techniqueID": "T1078.004",
+      "tactic": "defense-evasion",
+      "color": "#ffaa00",
+      "comment": "Valid Accounts: Cloud Accounts - All attacks used valid IAM credentials simulating compromised access",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": true,
+      "score": 2
+    },
+    {
+      "techniqueID": "T1069.003",
+      "tactic": "discovery",
+      "color": "#ff6666",
+      "comment": "Permission Groups Discovery: Cloud Groups - IAM roles and policies enumerated via Pacu",
+      "enabled": true,
+      "metadata": [],
+      "links": [],
+      "showSubtechniques": true,
+      "score": 3
+    }
+  ],
+  "gradient": {
+    "colors": [
+      "#ffffff",
+      "#ffaa00",
+      "#ff6666"
+    ],
+    "minValue": 0,
+    "maxValue": 3
+  },
+  "legendItems": [
+    {
+      "label": "Fully Executed",
+      "color": "#ff6666"
+    },
+    {
+      "label": "Simulated",
+      "color": "#ffaa00"
+    }
+  ],
+  "metadata": [],
+  "links": [],
+  "showTacticRowBackground": true,
+  "tacticRowBackground": "#1a1a2e",
+  "selectTechniquesAcrossTactics": false,
+  "selectSubtechniquesWithParent": false
+}
