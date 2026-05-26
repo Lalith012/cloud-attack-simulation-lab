@@ -1,6 +1,6 @@
 ﻿# Cloud Attack Simulation Lab
 
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
 ![AWS](https://img.shields.io/badge/AWS-ap--south--1-orange)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
@@ -24,7 +24,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for full details.
 | Phase 3 | Attack Simulation - Kill Chain | Complete |
 | Phase 4 | Detection Gap Analysis | Complete |
 | Phase 5 | MITRE ATT&CK Navigator Mapping | Complete |
-| Phase 6 | Final Documentation and Report | Pending |
+| Phase 6 | Final Documentation and Report | Complete |
 
 ## Tools Used
 
