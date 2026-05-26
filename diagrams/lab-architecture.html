@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Attack Simulation Lab — Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1628;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #ff4444;
+    --accent3: #00ff88;
+    --accent4: #ffaa00;
+    --text: #c8d8e8;
+    --text-dim: #5a7a9a;
+    --card: #0d1829;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    padding: 30px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+  }
+
+  header h1 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+
+  .section.full {
+    grid-column: 1 / -1;
+  }
+
+  .section.half {
+    grid-column: span 2;
+  }
+
+  .section-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title.blue { color: var(--accent); }
+  .section-title.red { color: var(--accent2); }
+  .section-title.green { color: var(--accent3); }
+  .section-title.orange { color: var(--accent4); }
+
+  .component {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .icon {
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .component-info h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .component-info p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 4px;
+  }
+
+  .badge.active { background: #003a1a; color: var(--accent3); border: 1px solid var(--accent3); }
+  .badge.attack { background: #3a0000; color: var(--accent2); border: 1px solid var(--accent2); }
+  .badge.detect { background: #00263a; color: var(--accent); border: 1px solid var(--accent); }
+  .badge.warn { background: #3a2600; color: var(--accent4); border: 1px solid var(--accent4); }
+
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .flow-step {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text);
+  }
+
+  .flow-arrow {
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .flow-step.attack-step { border-color: var(--accent2); color: var(--accent2); }
+  .flow-step.detect-step { border-color: var(--accent3); color: var(--accent3); }
+  .flow-step.gap-step { border-color: var(--accent4); color: var(--accent4); }
+
+  .mitre-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .mitre-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .mitre-card .tid {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .mitre-card .tname {
+    font-size: 0.7rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .mitre-card .ttactic {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .stat {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat .value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .stat .label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat.red .value { color: var(--accent2); }
+  .stat.blue .value { color: var(--accent); }
+  .stat.green .value { color: var(--accent3); }
+  .stat.orange .value { color: var(--accent4); }
+
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Cloud Attack Simulation Lab — Architecture</h1>
+  <p>Project 2 | AWS ap-south-1 | Authorized Lab Environment</p>
+</header>
+
+<div class="grid">
+
+  <!-- Stats Row -->
+  <div class="section full">
+    <div class="section-title blue">Project Metrics</div>
+    <div class="stat-row">
+      <div class="stat red"><span class="value">3</span><span class="label">Attack Scenarios</span></div>
+      <div class="stat orange"><span class="value">7</span><span class="label">MITRE Techniques</span></div>
+      <div class="stat blue"><span class="value">28%</span><span class="label">Detection Rate</span></div>
+      <div class="stat green"><span class="value">7</span><span class="label">Detection Gaps</span></div>
+    </div>
+  </div>
+
+  <!-- Attacker Environment -->
+  <div class="section">
+    <div class="section-title red">Attacker Environment</div>
+    <div class="component">
+      <div class="icon">💻</div>
+      <div class="component-info">
+        <h3>Local Machine</h3>
+        <p>Windows 11 — ap-south-1</p>
+        <span class="badge attack">Attacker Host</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">🔧</div>
+      <div class="component-info">
+        <h3>Pacu 1.7.0</h3>
+        <p>AWS Exploitation Framework</p>
+        <span class="badge attack">Offensive Tool</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">🔍</div>
+      <div class="component-info">
+        <h3>ScoutSuite 5.14.0</h3>
+        <p>Multi-Cloud Security Auditing</p>
+        <span class="badge attack">Recon Tool</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">⌨️</div>
+      <div class="component-info">
+        <h3>AWS CLI 2.34.48</h3>
+        <p>Direct API Enumeration</p>
+        <span class="badge attack">Enum Tool</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AWS Target Environment -->
+  <div class="section half">
+    <div class="section-title blue">AWS Target Environment — ap-south-1</div>
+    <div class="component">
+      <div class="icon">👤</div>
+      <div class="component-info">
+        <h3>IAM User: Lalith</h3>
+        <p>DetectionLabPolicy — Least Privilege</p>
+        <span class="badge warn">Valid Credentials</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">📋</div>
+      <div class="component-info">
+        <h3>AWS CloudTrail</h3>
+        <p>detection-lab-trail — Multi-region</p>
+        <span class="badge active">Logging Active</span>
+        <span class="badge attack">Attack Target</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">🪣</div>
+      <div class="component-info">
+        <h3>S3 Log Bucket</h3>
+        <p>CloudTrail logs and digest files</p>
+        <span class="badge active">Active</span>
+        <span class="badge attack">Exfil Target</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">🔐</div>
+      <div class="component-info">
+        <h3>IAM Roles (6)</h3>
+        <p>All Service-Linked — Not Assumable</p>
+        <span class="badge active">Hardened</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detection Layer -->
+  <div class="section">
+    <div class="section-title green">Detection Layer</div>
+    <div class="component">
+      <div class="icon">🛡️</div>
+      <div class="component-info">
+        <h3>AWS GuardDuty</h3>
+        <p>Threat Detection Service</p>
+        <span class="badge detect">28% Detection</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">📊</div>
+      <div class="component-info">
+        <h3>AWS Security Hub</h3>
+        <p>Finding Aggregation</p>
+        <span class="badge detect">Active</span>
+      </div>
+    </div>
+    <div class="component">
+      <div class="icon">📝</div>
+      <div class="component-info">
+        <h3>CloudTrail Events</h3>
+        <p>Management Events Only</p>
+        <span class="badge warn">Data Events Off</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kill Chain Flow -->
+  <div class="section full">
+    <div class="section-title red">Kill Chain — Attack Flow</div>
+    <div style="margin-bottom: 16px;">
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:8px; font-family:'Share Tech Mono',monospace;">SCENARIO 1 — Defense Evasion</div>
+      <div class="flow">
+        <div class="flow-step attack-step">Valid Creds</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">StopLogging</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">Audit Gap</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step detect-step">GuardDuty: LOW</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step gap-step">10min Lag</div>
+      </div>
+    </div>
+    <div style="margin-bottom: 16px;">
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:8px; font-family:'Share Tech Mono',monospace;">SCENARIO 2 — Data Exfiltration</div>
+      <div class="flow">
+        <div class="flow-step attack-step">Valid Creds</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">S3 ListBucket</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">GetObject</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">Log Exfil</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step gap-step">Not Detected</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:8px; font-family:'Share Tech Mono',monospace;">SCENARIO 3 — Recon Under Silence</div>
+      <div class="flow">
+        <div class="flow-step attack-step">StopLogging</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">IAM Enum</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">S3 Enum</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step attack-step">StartLogging</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step gap-step">Gap Unrecoverable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MITRE Coverage -->
+  <div class="section full">
+    <div class="section-title orange">MITRE ATT&CK Coverage</div>
+    <div class="mitre-grid">
+      <div class="mitre-card">
+        <span class="tid">T1562.008</span>
+        <span class="tname">Impair Defenses</span>
+        <span class="ttactic">Defense Evasion</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1530</span>
+        <span class="tname">Data from Cloud Storage</span>
+        <span class="ttactic">Collection</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1087.004</span>
+        <span class="tname">Account Discovery</span>
+        <span class="ttactic">Discovery</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1526</span>
+        <span class="tname">Cloud Service Discovery</span>
+        <span class="ttactic">Discovery</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1580</span>
+        <span class="tname">Cloud Infrastructure Discovery</span>
+        <span class="ttactic">Discovery</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1619</span>
+        <span class="tname">Cloud Storage Object Discovery</span>
+        <span class="ttactic">Discovery</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1078.004</span>
+        <span class="tname">Valid Accounts: Cloud</span>
+        <span class="ttactic">Defense Evasion</span>
+      </div>
+      <div class="mitre-card">
+        <span class="tid">T1069.003</span>
+        <span class="tname">Permission Groups Discovery</span>
+        <span class="ttactic">Discovery</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Cloud Attack Simulation Lab — Project 2 | Authorized Lab Environment |
+  All simulations conducted on infrastructure owned by the author
+</footer>
+
+</body>
+</html>
