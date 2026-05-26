@@ -40,7 +40,14 @@ See [DISCLAIMER.md](DISCLAIMER.md) for full details.
 
 | Technique ID | Name | Tactic | Status |
 |-------------|------|--------|--------|
-| TBD | TBD | TBD | Pending |
+| T1562.008 | Impair Defenses: Disable Cloud Logs | Defense Evasion | Complete |
+| T1530 | Data from Cloud Storage | Collection | Complete |
+| T1087.004 | Account Discovery: Cloud Account | Discovery | Complete |
+| T1526 | Cloud Service Discovery | Discovery | Complete |
+| T1580 | Cloud Infrastructure Discovery | Discovery | Complete |
+| T1619 | Cloud Storage Object Discovery | Discovery | Complete |
+| T1078.004 | Valid Accounts: Cloud Accounts | Defense Evasion | Complete |
+| T1069.003 | Permission Groups Discovery | Discovery | Complete |
 
 ## Repository Structure
 
