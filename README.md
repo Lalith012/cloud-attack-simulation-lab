@@ -21,7 +21,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for full details.
 |-------|-------|--------|
 | Phase 1 | Environment Setup | Complete |
 | Phase 2 | Reconnaissance and Enumeration | Complete |
-| Phase 3 | Attack Simulation - Kill Chain | Pending |
+| Phase 3 | Attack Simulation - Kill Chain | Complete |
 | Phase 4 | Detection Gap Analysis | Pending |
 | Phase 5 | MITRE ATT&CK Navigator Mapping | Pending |
 | Phase 6 | Final Documentation and Report | Pending |
