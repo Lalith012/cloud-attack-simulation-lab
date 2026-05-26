@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Attack Simulation Lab — Final Project Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1628;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #ff4444;
+    --accent3: #00ff88;
+    --accent4: #ffaa00;
+    --text: #c8d8e8;
+    --text-dim: #5a7a9a;
+    --card: #0d1829;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 50px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 30px;
+  }
+
+  header h1 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.8rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  header h2 {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .meta-item span {
+    color: var(--accent);
+  }
+
+  section {
+    margin-bottom: 40px;
+  }
+
+  .section-header {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .section-header.red { color: var(--accent2); }
+  .section-header.green { color: var(--accent3); }
+  .section-header.orange { color: var(--accent4); }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+  }
+
+  th {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: var(--bg2); }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .badge.red { background: #3a0000; color: var(--accent2); border: 1px solid var(--accent2); }
+  .badge.green { background: #003a1a; color: var(--accent3); border: 1px solid var(--accent3); }
+  .badge.blue { background: #00263a; color: var(--accent); border: 1px solid var(--accent); }
+  .badge.orange { background: #3a2600; color: var(--accent4); border: 1px solid var(--accent4); }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat .value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+  }
+
+  .stat .label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat.red .value { color: var(--accent2); }
+  .stat.blue .value { color: var(--accent); }
+  .stat.green .value { color: var(--accent3); }
+  .stat.orange .value { color: var(--accent4); }
+
+  .qa-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .qa-block .question {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent4);
+    margin-bottom: 8px;
+  }
+
+  .qa-block .answer {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .resume-bullet {
+    background: var(--card);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .gap-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .gap-card .gap-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+
+  .gap-card .gap-body {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .gap-card .gap-fix {
+    font-size: 0.8rem;
+    color: var(--accent3);
+    margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Cloud Attack Simulation Lab</h1>
+  <h2>Final Project Report — Project 2</h2>
+  <div class="meta-row">
+    <div class="meta-item">Author: <span>Lalith</span></div>
+    <div class="meta-item">Environment: <span>AWS ap-south-1</span></div>
+    <div class="meta-item">Date: <span>May 2026</span></div>
+    <div class="meta-item">Status: <span>Complete</span></div>
+    <div class="meta-item">Repo: <span>cloud-attack-simulation-lab</span></div>
+  </div>
+</header>
+
+<!-- Executive Summary -->
+<section>
+  <div class="section-header">Executive Summary</div>
+  <p>
+    This report documents the Cloud Attack Simulation Lab — a hands-on AWS security
+    project that simulates real-world attacker behavior using industry-standard offensive
+    security tooling. Three attack scenarios were executed against a live AWS account,
+    covering reconnaissance, defense evasion, and data exfiltration techniques mapped
+    to the MITRE ATT&CK framework.
+  </p>
+  <p>
+    The primary finding is that AWS GuardDuty with default configuration detected only
+    28% of attack actions. Seven specific detection gaps were identified with remediation
+    recommendations for each. This project demonstrates attacker mindset, detection
+    engineering depth, and the ability to communicate security findings at both technical
+    and executive levels.
+  </p>
+  <div class="stat-row">
+    <div class="stat red"><span class="value">3</span><span class="label">Attack Scenarios</span></div>
+    <div class="stat orange"><span class="value">8</span><span class="label">MITRE Techniques</span></div>
+    <div class="stat blue"><span class="value">28%</span><span class="label">Detection Rate</span></div>
+    <div class="stat green"><span class="value">7</span><span class="label">Gaps Identified</span></div>
+  </div>
+</section>
+
+<!-- Environment -->
+<section>
+  <div class="section-header">Environment and Tools</div>
+  <table>
+    <tr><th>Component</th><th>Details</th><th>Purpose</th></tr>
+    <tr><td>AWS Account</td><td>ap-south-1 (Mumbai)</td><td>Target environment</td></tr>
+    <tr><td>IAM User</td><td>Lalith — DetectionLabPolicy</td><td>Simulated compromised credentials</td></tr>
+    <tr><td>CloudTrail</td><td>detection-lab-trail — Multi-region</td><td>Audit logging and evidence</td></tr>
+    <tr><td>GuardDuty</td><td>Active — Default configuration</td><td>Threat detection</td></tr>
+    <tr><td>Pacu 1.7.0</td><td>AWS exploitation framework</td><td>IAM enumeration and attack simulation</td></tr>
+    <tr><td>ScoutSuite 5.14.0</td><td>Multi-cloud security auditing</td><td>Reconnaissance and attack surface mapping</td></tr>
+    <tr><td>AWS CLI 2.34.48</td><td>Direct API access</td><td>Enumeration and attack execution</td></tr>
+  </table>
+</section>
+
+<!-- Attack Scenarios -->
+<section>
+  <div class="section-header red">Attack Scenarios</div>
+
+  <table>
+    <tr><th>Scenario</th><th>Technique</th><th>Action</th><th>Detected</th><th>Severity</th></tr>
+    <tr>
+      <td>1 — Defense Evasion</td>
+      <td>T1562.008</td>
+      <td>CloudTrail StopLogging</td>
+      <td><span class="badge orange">Partial</span></td>
+      <td><span class="badge red">Low — Miscalibrated</span></td>
+    </tr>
+    <tr>
+      <td>2 — Data Exfiltration</td>
+      <td>T1530</td>
+      <td>S3 CloudTrail log download</td>
+      <td><span class="badge red">Not Detected</span></td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>3 — Recon Under Silence</td>
+      <td>T1562.008 + T1087.004</td>
+      <td>Enum during logging gap</td>
+      <td><span class="badge red">Not Detected</span></td>
+      <td>N/A</td>
+    </tr>
+  </table>
+
+  <p>
+    All scenarios used valid IAM credentials simulating a compromised account.
+    No unauthorized systems were accessed. All destructive actions were immediately
+    reversed after demonstration.
+  </p>
+</section>
+
+<!-- Detection Gap Analysis -->
+<section>
+  <div class="section-header orange">Detection Gap Analysis</div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 1 — Severity Miscalibration</div>
+    <div class="gap-body">GuardDuty rates CloudTrail disabling as Low severity (2.0). In a real SOC this finding sits in a low priority queue and may not be investigated for hours — by which time the attacker has completed their objective.</div>
+    <div class="gap-fix">Fix: EventBridge rule to auto-escalate Stealth:IAMUser/CloudTrailLoggingDisabled to Critical</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 2 — Alternative Disruption Methods</div>
+    <div class="gap-body">GuardDuty only detects the StopLogging API call. Modifying the S3 bucket policy to block log delivery, deleting the bucket, or modifying event selectors does not generate a Stealth finding.</div>
+    <div class="gap-fix">Fix: AWS Config rule on CloudTrail log bucket policy changes</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 3 — Detection Lag Window</div>
+    <div class="gap-body">GuardDuty took approximately 10 minutes to generate a finding after StopLogging. A fast attacker can complete their objective before any alert fires.</div>
+    <div class="gap-fix">Fix: CloudTrail → CloudWatch Logs → Lambda pipeline for sub-minute detection</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 4 — S3 Read Access Invisible</div>
+    <div class="gap-body">S3 GetObject calls using legitimate credentials generate zero GuardDuty findings by default. Complete CloudTrail log exfiltration was undetected.</div>
+    <div class="gap-fix">Fix: Enable GuardDuty S3 Protection and AWS Macie on CloudTrail bucket</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 5 — CloudTrail Data Events Disabled</div>
+    <div class="gap-body">CloudTrail only logs management events by default. S3 object downloads do not appear in CloudTrail without explicit data event enablement.</div>
+    <div class="gap-fix">Fix: Enable S3 data events on CloudTrail log bucket via put-event-selectors</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 6 — Silence Window Unrecoverable</div>
+    <div class="gap-body">Actions taken while CloudTrail is stopped leave no recoverable evidence. The gap is detectable but its contents are permanently lost.</div>
+    <div class="gap-fix">Fix: VPC Flow Logs for network-level visibility independent of CloudTrail</div>
+  </div>
+
+  <div class="gap-card">
+    <div class="gap-title">Gap 7 — Finding Aggregation Reduces Urgency</div>
+    <div class="gap-body">GuardDuty increments counts on existing findings rather than creating new ones for repeated occurrences. SOC analysts treat aggregated findings with lower urgency.</div>
+    <div class="gap-fix">Fix: EventBridge on every finding update for Stealth finding types</div>
+  </div>
+</section>
+
+<!-- MITRE Coverage -->
+<section>
+  <div class="section-header">MITRE ATT&CK Coverage</div>
+  <table>
+    <tr><th>Technique ID</th><th>Name</th><th>Tactic</th><th>Status</th></tr>
+    <tr><td>T1562.008</td><td>Impair Defenses: Disable Cloud Logs</td><td>Defense Evasion</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1530</td><td>Data from Cloud Storage</td><td>Collection</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1087.004</td><td>Account Discovery: Cloud Account</td><td>Discovery</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1526</td><td>Cloud Service Discovery</td><td>Discovery</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1580</td><td>Cloud Infrastructure Discovery</td><td>Discovery</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1619</td><td>Cloud Storage Object Discovery</td><td>Discovery</td><td><span class="badge red">Executed</span></td></tr>
+    <tr><td>T1078.004</td><td>Valid Accounts: Cloud Accounts</td><td>Defense Evasion</td><td><span class="badge orange">Simulated</span></td></tr>
+    <tr><td>T1069.003</td><td>Permission Groups Discovery</td><td>Discovery</td><td><span class="badge red">Executed</span></td></tr>
+  </table>
+</section>
+
+<footer>
+  Cloud Attack Simulation Lab — Project 2 | Authorized Lab Environment |
+  All simulations conducted on infrastructure owned by the author |
+  GitHub: github.com/Lalith012/cloud-attack-simulation-lab
+</footer>
+
+</body>
+</html>
